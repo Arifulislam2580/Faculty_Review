@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IUBAT Faculty Review Portal — Summer 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #f5f3ef;
+  --surface: #ffffff;
+  --border: #e2ddd6;
+  --text: #1a1816;
+  --text2: #6b6560;
+  --text3: #9e9891;
+  --accent: #c85a2a;
+  --accent2: #e8b89a;
+  --accent-bg: #fdf0e8;
+  --green: #2a7a4b;
+  --green-bg: #eaf4ef;
+  --star: #d4890a;
+  --star-empty: #ddd8d0;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+/* HEADER */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.logo-text { font-size: 15px; font-weight: 600; }
+.logo-sub { font-size: 12px; color: var(--text2); }
+.header-badge {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid var(--accent2);
+  border-radius: 20px;
+  font-size: 12px;
+  padding: 4px 12px;
+  font-weight: 500;
+}
+/* HERO */
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.hero p {
+  color: var(--text2);
+  font-size: 15px;
+  max-width: 480px;
+  margin: 0 auto 28px;
+}
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.stat-label { font-size: 12px; color: var(--text3); }
+/* CONTROLS */
+.controls {
+  max-width: 1100px;
+  margin: 28px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 13px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px;
+  stroke: var(--text3);
+  fill: none;
+  stroke-width: 2;
+  pointer-events: none;
+}
+.search-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.dept-select {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  min-width: 170px;
+}
+.dept-select:focus { border-color: var(--accent); }
+.filter-info {
+  max-width: 1100px;
+  margin: 12px auto 0;
+  padding: 0 24px;
+  font-size: 13px;
+  color: var(--text3);
+}
+/* GRID */
+.faculty-grid {
+  max-width: 1100px;
+  margin: 16px auto 0;
+  padding: 0 24px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.faculty-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s, border-color 0.2s;
+}
+.faculty-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  border-color: var(--accent2);
+}
+.fc-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 13px; flex-shrink: 0;
+}
+.av-0 { background: #fdeef5; color: #8b2252; }
+.av-1 { background: #eef5fd; color: #1a4f8a; }
+.av-2 { background: #edfdf0; color: #1a6b3a; }
+.av-3 { background: #fdf5ee; color: #8a4a1a; }
+.av-4 { background: #f5eeff; color: #5a2a8a; }
+.fc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 2px; }
+.fc-dept {
+  display: inline-block;
+  font-size: 11px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 20px;
+  padding: 1px 8px;
+  font-weight: 500;
+}
+.courses-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.course-tag {
+  font-size: 11px;
+  background: var(--bg);
+  color: var(--text2);
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.rating-row { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+.stars { display: flex; gap: 2px; }
+.star { font-size: 14px; color: var(--star-empty); }
+.star.on { color: var(--star); }
+.rating-text { font-size: 12px; color: var(--text3); }
+.btn-review {
+  width: 100%;
+  padding: 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-review:hover { background: var(--accent-bg); border-color: var(--accent2); color: var(--accent); }
+/* PAGINATION */
+.pagination {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.pg-btn {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.pg-btn:hover:not(:disabled) { background: var(--accent-bg); border-color: var(--accent2); }
+.pg-btn:disabled { opacity: 0.4; cursor: default; }
+.pg-info { font-size: 13px; color: var(--text2); }
+/* MODAL */
+.modal-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 540px;
+  padding: 28px;
+  position: relative;
+  margin: auto;
+  box-shadow: var(--shadow-lg);
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--bg); border: none;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text2);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--border); }
+.modal-teacher-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.modal-avatar { width: 50px; height: 50px; border-radius: 50%; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.modal-teacher-name { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; }
+.modal-teacher-dept { font-size: 13px; color: var(--text2); }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.star-picker { display: flex; gap: 6px; }
+.sp-btn {
+  font-size: 24px;
+  background: none; border: none;
+  cursor: pointer;
+  color: var(--star-empty);
+  transition: color 0.1s, transform 0.1s;
+  padding: 2px;
+}
+.sp-btn:hover { transform: scale(1.15); }
+.sp-btn.on { color: var(--star); }
+.form-group input[type=text],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus { border-color: var(--accent); background: #fff; }
+.form-group textarea { min-height: 90px; resize: vertical; }
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+.submit-btn:hover { background: #a84820; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+.past-reviews-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+.review-item { padding: 14px; background: var(--bg); border-radius: var(--radius-sm); margin-bottom: 10px; }
+.review-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.reviewer-name { font-size: 13px; font-weight: 600; }
+.review-date { font-size: 12px; color: var(--text3); }
+.review-cats { display: flex; gap: 12px; font-size: 11px; color: var(--text3); margin-bottom: 6px; flex-wrap: wrap; }
+.review-cats span { display: flex; align-items: center; gap: 3px; }
+.review-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+.success-box {
+  display: none;
+  text-align: center;
+  padding: 32px 16px;
+}
+.success-icon { font-size: 48px; color: var(--green); margin-bottom: 10px; }
+.success-box h3 { font-family: 'Fraunces', serif; font-size: 22px; margin-bottom: 6px; }
+.success-box p { font-size: 14px; color: var(--text2); }
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: var(--text3);
+}
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+  grid-column: 1 / -1;
+}
+@media (max-width: 600px) {
+  .hero { padding: 32px 16px 28px; }
+  .stats-row { gap: 20px; }
+  .controls { padding: 0 16px; }
+  .faculty-grid { padding: 0 16px 32px; }
+  .pagination { padding: 0 16px; }
+  .modal { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">IU</div>
+      <div>
+        <div class="logo-text">IUBAT Faculty Reviews</div>
+        <div class="logo-sub">Student feedback portal</div>
+      </div>
+    </div>
+    <div class="header-badge">Summer 2026</div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Rate your teachers</h1>
+  <p>Share honest feedback to help fellow students and improve teaching quality at IUBAT.</p>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num" id="statFaculty">—</div>
+      <div class="stat-label">Faculty members</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="statCourses">748</div>
+      <div class="stat-label">Course entries</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" id="statReviews">0</div>
+      <div class="stat-label">Reviews submitted</div>
+    </div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search teacher name or course code..." oninput="filterFaculty()" />
+  </div>
+  <select class="dept-select" id="deptFilter" onchange="filterFaculty()">
+    <option value="">All departments</option>
+    <option value="CBA">CBA — Business</option>
+    <option value="CSE">CSE — Computer Science</option>
+    <option value="BSEEE">BSEEE — Electrical</option>
+    <option value="BSME">BSME — Mechanical</option>
+    <option value="BSCE">BSCE — Civil</option>
+    <option value="BSN">BSN — Nursing</option>
+    <option value="BSAg">BSAg — Agriculture</option>
+    <option value="CAAS">CAAS — Arts &amp; Sciences</option>
+    <option value="CTHM">CTHM — Tourism &amp; Hospitality</option>
+    <option value="DEML">DEML — English &amp; Languages</option>
+    <option value="BAEcon">BAEcon — Economics</option>
+    <option value="TTD">TTD — Tech Training</option>
+  </select>
+</div>
+<div class="filter-info" id="filterInfo"></div>
+
+<div class="faculty-grid" id="facultyGrid"></div>
+<div class="pagination" id="pagination"></div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalForm"></div>
+    <div class="success-box" id="successBox">
+      <div class="success-icon">✓</div>
+      <h3>Review submitted!</h3>
+      <p>Thank you for helping your fellow students.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  IUBAT Student Enrolment — Faculty Review Portal &nbsp;·&nbsp; Summer 2026
+</footer>
+
+<script>
+const FACULTY = [
+  {name:"Dr. Md. Afzal Hossain",dept:"CBA",courses:["ACC 101","ACC 300","ACC 406"]},
+  {name:"Mr. Hasan Moudud",dept:"CBA",courses:["ACC 101","ART 202","FIN 301","FIN 404"]},
+  {name:"Ms. Taslima Khatun",dept:"CBA",courses:["ACC 101","ACC 303","FIN 301","FIN 402"]},
+  {name:"Sunan Islam",dept:"CBA",courses:["ACC 101","ACC 1305","ACC 201","ACC 405"]},
+  {name:"Ashish Basak",dept:"CBA",courses:["ACC 1305","ACC 304","ACC 403","ART 202"]},
+  {name:"Mr. Abdullah Al Yousuf Khan",dept:"CBA",courses:["ACC 1305","ART 203","FIN 405"]},
+  {name:"Dr. Md. Moniruzzaman",dept:"CBA",courses:["ACC 300","ACC 303","FIN 302"]},
+  {name:"Mr. Swapan Kumar Saha",dept:"CBA",courses:["ACC 304","ACC 404"]},
+  {name:"Dr. Mominul Islam",dept:"CBA",courses:["ART 202","BUS 101","BUS 201"]},
+  {name:"Jamee Ahmad",dept:"CBA",courses:["ART 202","BUS 101","HRM 301","MGT 201"]},
+  {name:"Dr. Sharmin Taskin",dept:"CBA",courses:["ART 202","MKT 301","MKT 303"]},
+  {name:"Kazi Mahmudul Islam",dept:"CBA",courses:["ART 202","MGT 302","MIS 401","SCM 405"]},
+  {name:"Kazi Md Fahim Ahmed",dept:"CBA",courses:["ART 202","MGT 403","MKT 302","MKT 304"]},
+  {name:"Mohammad Kamruzzaman",dept:"CBA",courses:["ART 202","BUS 201","HRM 304","MGT 202"]},
+  {name:"Zahir Rayhan Salim",dept:"CBA",courses:["ART 203","BUS 101","MGT 401"]},
+  {name:"Dr. Sheikh Shamim Hasnain",dept:"CBA",courses:["ART 203","MGT 201"]},
+  {name:"Dr. Md. Sohel Rana",dept:"CBA",courses:["ART 202","ART 203","BUS 301","MGT 301"]},
+  {name:"Dr. Arif Rana",dept:"CBA",courses:["MGT 301","MIS 402"]},
+  {name:"Dr. Mohammad Moshiur Rahman",dept:"CBA",courses:["ART 202","HRM 302","MGT 403"]},
+  {name:"Nayma Iftakhar",dept:"CBA",courses:["HRM 301","MGT 202"]},
+  {name:"Dr. Hasanuzzaman Tushar",dept:"CBA",courses:["HRM 303"]},
+  {name:"Dr. Aynul Hoque",dept:"CBA",courses:["POP 301","SCM 401"]},
+  {name:"Dr. Md. Nur-E-Alam Siddique",dept:"CBA",courses:["BUS 301"]},
+  {name:"Dr. Ershad Ali",dept:"CBA",courses:["BUS 203"]},
+  {name:"Sohel Imroj Sayeed",dept:"CBA",courses:["BUS 101","BUS 201"]},
+  {name:"Sultan Moyeen Ahmed Robin",dept:"CBA",courses:["BUS 101"]},
+  {name:"Kazi Khaled Shams Chisty",dept:"CBA",courses:["BUS 201","MGT 202","MKT 401"]},
+  {name:"Syed Alamgir",dept:"CBA",courses:["MKT 301"]},
+  {name:"Dr. Md. Kamrul Hasan",dept:"BSAg",courses:["AGR 271","SOC 201"]},
+  {name:"Prof. Dr. Md. Abdul Karim",dept:"BSAg",courses:["AGR 101","AGR 102","BIO 207","BIO 208"]},
+  {name:"Dr. Md. Shahin Iqbal",dept:"BSAg",courses:["AGR 203","AGR 204","AGR 301"]},
+  {name:"Dr. Md. Ashraful Hoque",dept:"BSAg",courses:["AGR 203","AGR 204","AGR 371","AGR 372"]},
+  {name:"Dr. Sujon Kumar",dept:"BSAg",courses:["AGR 203","AGR 204","AGR 321","AGR 322","CHM 147","CHM 148"]},
+  {name:"Dr. Fahim Ahmed",dept:"BSAg",courses:["AGR 453","BIO 253","BOT 205","BOT 206"]},
+  {name:"Dr. Mohammad Rezaul Karim",dept:"BSAg",courses:["AGR 101","AGR 102"]},
+  {name:"Dr. Shabur Talukder",dept:"BSAg",courses:["AGR 401","AGR 402","AGR 421","AGR 422","AGR 431","AGR 432"]},
+  {name:"Dr. Md. Nur A Alam Siddique",dept:"BSAg",courses:["AGR 431","AGR 432","AGR 441","AGR 442"]},
+  {name:"Dr. Md. Syeeduzzaman Kamal",dept:"BSAg",courses:["AGR 241","AGR 383","AGR 384"]},
+  {name:"Prof. Dr. Md. Ferdous Mondal",dept:"BSAg",courses:["AGR 383","AGR 384"]},
+  {name:"Dr. Ismail Hossain",dept:"BSAg",courses:["AGR 371","AGR 372"]},
+  {name:"Dr. Babul Chandra Sarker",dept:"BSAg",courses:["AGR 381","AGR 382"]},
+  {name:"Dr. Muhammad Salim",dept:"BSAg",courses:["AGR 351","AGR 352"]},
+  {name:"Dr. Anil Chandra Boshak",dept:"BSAg",courses:["AGR 205"]},
+  {name:"Dr. Sharmin Akter Chowdhury",dept:"BSAg",courses:["AGR 205","ENV 201"]},
+  {name:"Dr. Swapan Kumar Roy",dept:"BSAg",courses:["AGR 373","AGR 374","SSC 205","SSC 206"]},
+  {name:"Dr. Md. Sohrab Ali",dept:"BSAg",courses:["SSC 101","SSC 102"]},
+  {name:"Dr. M A Sattar",dept:"BSAg",courses:["SSC 205","SSC 206"]},
+  {name:"Professor Dr. Md. Jabed Ali Mirza",dept:"BSAg",courses:["AGR 311","AGR 411","AGR 412"]},
+  {name:"Dr. Syada Nizer Sultana",dept:"BSAg",courses:["BOT 107","BOT 108"]},
+  {name:"Dr. Md. Shafiqul Islam",dept:"BSAg",courses:["AGR 311","ECO 302"]},
+  {name:"Dr. Shaila Sharmin",dept:"BSAg",courses:["CHM 147","CHM 148"]},
+  {name:"Dr. Abu Yousuf Hossin",dept:"BSAg",courses:["AGR 321","AGR 322"]},
+  {name:"Dr. Md. Salim Ullah Khan Eusufzai",dept:"BSAg",courses:["AGR 241"]},
+  {name:"Dr. Rimana Islam Papry",dept:"BSAg",courses:["ENV 103"]},
+  {name:"Dr. Md Alomgir Hossain",dept:"CSE",courses:["CSC 471"]},
+  {name:"Dr. Ishtiak Al Mamoon",dept:"CSE",courses:["CSC 465","CSC 466","CSC 471","CSE 4385"]},
+  {name:"Dr. Ehtesamul Haque",dept:"CSE",courses:["CSC 471"]},
+  {name:"Dr. Abdul Awal",dept:"CSE",courses:["ART 3101","CSE 4309","CSE 4357"]},
+  {name:"Dr. Abhijit Saha",dept:"CSE",courses:["CSE 3311","CSE 4309"]},
+  {name:"Dr. Md. Shafenoor Amin",dept:"CSE",courses:["CSE 2383","CSE 2384","CSE 3311","CSE 3312"]},
+  {name:"Dr. Utpal Kanti Das",dept:"CSE",courses:["CSE 1383","CSE 1384"]},
+  {name:"Ms. Suhala Lamia",dept:"CSE",courses:["CSE 2383","CSE 2384","CSE 3311","CSE 3312"]},
+  {name:"Rubayea Ferdows",dept:"CSE",courses:["CSE 2383","CSE 2384","CSE 3311","CSE 3312"]},
+  {name:"D.M Arif Afsar",dept:"CSE",courses:["CSE 2391","CSE 2392","CSE 3311","CSE 3312"]},
+  {name:"Dr. M. Kaykobad",dept:"CSE",courses:["CSE 2391","CSE 2392"]},
+  {name:"Mr. Saidur Rahman",dept:"CSE",courses:["CSE 3323","CSE 3324","EEE 2365","EEE 2366"]},
+  {name:"Ms. Nusrath Tabassum",dept:"CSE",courses:["CSE 3323","CSE 3324","CSE 4317","ART 3101"]},
+  {name:"Mahedi Hasan",dept:"CSE",courses:["CSC 183","CSC 184","CSE 2347","CSE 4385"]},
+  {name:"Rafiqul Islam Munna",dept:"CSE",courses:["CSC 183","CSC 184","CSE 4309"]},
+  {name:"Ms. Tanzina Tasnim Bithi",dept:"CSE",courses:["CSC 183","CSC 184","CSE 4309"]},
+  {name:"Md. Alamin Talukder",dept:"CSE",courses:["ART 203","CSC 183","CSC 184"]},
+  {name:"Afsana Akter Lija",dept:"CSE",courses:["CSC 103","CSC 104"]},
+  {name:"Mr. Jubair Ahmed Nabin",dept:"CSE",courses:["CSC 105","CSC 106","CSC 215","CSE 4357"]},
+  {name:"Mr. Md. Hasibul Islam",dept:"CSE",courses:["CSC 105","CSC 106","CSC 397"]},
+  {name:"Ms. Moumitu Tasnim",dept:"CSE",courses:["CSC 105","CSC 106","CSC 387"]},
+  {name:"Sheekar Banerjee",dept:"CSE",courses:["CSC 105","CSC 106","CSC 439","CSC 440"]},
+  {name:"Anamika Rani Nath",dept:"CSE",courses:["CSC 215","CSC 439","CSC 440"]},
+  {name:"Naeem Mia",dept:"CSE",courses:["CSC 215","CSC 439","CSC 440","CSE 4317"]},
+  {name:"Mohammad Sakif Alam",dept:"CSE",courses:["CSE 4317"]},
+  {name:"Mr. Fahim Shakil Tamim",dept:"CSE",courses:["CSC 215","CSC 469","CSC 470","CSE 4317"]},
+  {name:"Saha Kuljit Shantanu",dept:"CSE",courses:["CSC 215","CSC 469","CSC 470","CSE 4317"]},
+  {name:"Avijit Biswas",dept:"CSE",courses:["CSC 469","CSC 470","CSE 2383","CSE 2384"]},
+  {name:"Momtazul Arefin Labib",dept:"CSE",courses:["CSC 469","CSC 470"]},
+  {name:"Mr Rashedul Islam",dept:"CSE",courses:["ART 3101","CSC 469","CSC 470"]},
+  {name:"S M Rifatur Rana",dept:"CSE",courses:["CSC 469","CSC 470"]},
+  {name:"Ms. Arifatur Rahman",dept:"CSE",courses:["CSE 2397","CSE 2398"]},
+  {name:"Ms. Faniyam Maria Mansia",dept:"CSE",courses:["CSE 2397","CSE 2398","CSE 4317"]},
+  {name:"Abdullah Mohammad Sakib",dept:"CSE",courses:["CSE 1383","CSE 1384"]},
+  {name:"Shahinur Alam",dept:"CSE",courses:["CSE 1383","CSE 1384"]},
+  {name:"Ms. Toyeer-E-Ferdous",dept:"CSE",courses:["CSE 2347","EEE 2365","EEE 2366"]},
+  {name:"Dipta Mohon Das",dept:"CSE",courses:["CSE 2355","CSE 2356"]},
+  {name:"Ms. Kashfi Shormita Kushal",dept:"CSE",courses:["CSE 2355","CSE 2356"]},
+  {name:"Ms. Snaholata Mondal",dept:"CSE",courses:["CSE 2355","CSE 2356","EEE 2365","EEE 2366"]},
+  {name:"Mr. ASM Shakil Ahamed",dept:"CSE",courses:["CSE 2383","CSE 2384"]},
+  {name:"Md. Asif Hossain",dept:"CSE",courses:["CSC 439","CSC 440","CSE 4385"]},
+  {name:"Drs Ferdaus Anam Jibon",dept:"CSE",courses:["ART 203","CSE 4385"]},
+  {name:"Asad Bin Shahid Mahin",dept:"CSE",courses:["CSC 437","CSE 4385"]},
+  {name:"Mr. Md. Nazir Ahmed",dept:"CSE",courses:["CSC 439","CSC 440","CSE 4357"]},
+  {name:"Ms. Jabunnesa Jahan Sara",dept:"CSE",courses:["CSC 439","CSC 440","CSE 4357"]},
+  {name:"Mr. Masud Rana",dept:"CSE",courses:["CSE 2391","CSE 2392"]},
+  {name:"Kazi Johir Raihan Suny",dept:"CSE",courses:["CSC 215"]},
+  {name:"Md. Khairul Islam",dept:"CSE",courses:["CSC 215"]},
+  {name:"Puja Dey",dept:"CSE",courses:["CSC 471"]},
+  {name:"Md. Min Khayer",dept:"CSE",courses:["CSC 471"]},
+  {name:"Md. Faihaj Alam Topu",dept:"CSE",courses:["CSC 433"]},
+  {name:"Krishna Das",dept:"CSE",courses:["ART 203"]},
+  {name:"Md. Moudud Hasan Saikot",dept:"BAEcon",courses:["ECO 101","ECO 102","ECO 201"]},
+  {name:"Md. Titu Miah",dept:"BAEcon",courses:["ECO 101","ECO 102"]},
+  {name:"Ms. Sumaiya Nabi Khan",dept:"BAEcon",courses:["ECO 101","ECO 202","ECO 204","ECO 306"]},
+  {name:"Oyshi Das Tonny",dept:"BAEcon",courses:["ECO 101","ECO 102","ECO 304"]},
+  {name:"Dr. Golam Rasul",dept:"BAEcon",courses:["ECO 402","ECO 481"]},
+  {name:"Dr. AKM Alamgir",dept:"BSEEE",courses:["ART 203","EEN 183","EEN 184","EEN 215","EEN 413"]},
+  {name:"Dr. Bishwajit Saha",dept:"BSEEE",courses:["EEN 183","EEN 184","EEN 303","EEN 361"]},
+  {name:"Dr. Engr. Raton Kumar Nondy",dept:"BSEEE",courses:["EEN 183","EEN 184","EEN 275"]},
+  {name:"Dr. Khadiza Akter Bonna",dept:"BSEEE",courses:["ART 203","EEN 183","EEN 184"]},
+  {name:"Dr. Khandaker Md. Raisul Amin",dept:"BSEEE",courses:["EEN 183","EEN 184","EEN 265","EEN 266"]},
+  {name:"Dr. Md. Aziz ul Huq",dept:"BSEEE",courses:["EEN 183","EEN 184","EEN 463","EEN 464"]},
+  {name:"Dr. Md. Moniruzzaman (EEE)",dept:"BSEEE",courses:["EEN 225","EEN 226","EEN 405","EEN 406"]},
+  {name:"Dr. Tawfikur Rahman",dept:"BSEEE",courses:["EEN 407","EEN 408"]},
+  {name:"Engr. Md. Abul Bashar",dept:"BSEEE",courses:["EEN 453","EEN 454","EEN 2103","EEN 2104"]},
+  {name:"Habib Mohammad",dept:"BSEEE",courses:["EEN 455","EEN 2103","EEN 2104"]},
+  {name:"Murad Kabir Nipun",dept:"BSEEE",courses:["EEN 329","EEN 330","EEN 2103","EEN 2104"]},
+  {name:"Mr. Suman Chowdhury",dept:"BSEEE",courses:["EEN 265","EEN 266","EEN 315","EEN 316"]},
+  {name:"Md. Kamruzzaman (EEE)",dept:"BSEEE",courses:["CEN 120","EEN 348","EEN 431","EEN 432"]},
+  {name:"Mr. Anisuzzaman Khan",dept:"BSCE",courses:["CEN 101","CEN 323"]},
+  {name:"Md. Majidur Rahman",dept:"BSCE",courses:["CEN 180","CEN 216","CEN 231"]},
+  {name:"Md. Hasibul Hassan",dept:"BSCE",courses:["CEN 205","CEN 267","CEN 268"]},
+  {name:"Prof. Dr. Engr. Monirul Islam",dept:"BSCE",courses:["CEN 206","CEN 479"]},
+  {name:"Engr. Md. Anisur Rahman",dept:"BSCE",courses:["CEN 213","CEN 214","CEN 471"]},
+  {name:"Mr. Saif Ahmed Santo",dept:"BSCE",courses:["CEN 213","CEN 214","CEN 377"]},
+  {name:"Farhan Fahad Tonmoy",dept:"BSCE",courses:["CEN 257","CEN 258"]},
+  {name:"Dr. Muhammad Enamul Quadir",dept:"BSCE",courses:["CEN 267","CEN 268","CEN 401"]},
+  {name:"Dr. Md. Abdul Halim",dept:"BSCE",courses:["CEN 307"]},
+  {name:"Mr. Matiur Rahman Raju",dept:"BSCE",courses:["CEN 307","CEN 451"]},
+  {name:"Dr. Noor Md. Sadiqul Hasan",dept:"BSCE",courses:["CEN 309"]},
+  {name:"Md. Abdul Basit",dept:"BSCE",courses:["CEN 309"]},
+  {name:"Md Safwan Kabir Bhuiya",dept:"BSCE",courses:["CEN 327"]},
+  {name:"Mr. Md. Emdadul Haque",dept:"BSCE",courses:["ART 203","CEN 341","CEN 342"]},
+  {name:"Ms. Rifat Sumona Mollik",dept:"BSCE",courses:["CEN 343","CEN 441","CEN 442"]},
+  {name:"Dr. Saima Ali",dept:"BSCE",courses:["CEN 347"]},
+  {name:"Dr. Soumik Nafis Sadeek",dept:"BSCE",courses:["CEN 371","CEN 372","CEN 471"]},
+  {name:"Ms. Syeda Rezwana Jannat",dept:"BSCE",courses:["CEN 409","CEN 410"]},
+  {name:"Dr. Md. Tarekh Rasul",dept:"BSCE",courses:["CEN 441","CEN 442"]},
+  {name:"Mst. Asma Ul Hosna",dept:"BSCE",courses:["CEN 441","CEN 442"]},
+  {name:"Professor Dr. Engr. Muhammad Abu Eusuf",dept:"BSCE",courses:["CEN 451"]},
+  {name:"Mr. Ishraq Tasnim Hossain",dept:"BSCE",courses:["CEN 471"]},
+  {name:"Dr. Md. Foisal Haque",dept:"BSCE",courses:["CEN 479"]},
+  {name:"Nashia Alam Liana",dept:"BSCE",courses:["CEN 223"]},
+  {name:"Mr. Nahidul Islam",dept:"BSCE",courses:["CEN 377"]},
+  {name:"Dr. Debasish Sarker",dept:"BSME",courses:["MEC 140","MEC 313","MEC 314","MEC 337","MEC 338"]},
+  {name:"Dr. A.K.M. Solayman Hoque",dept:"BSME",courses:["MEC 173","MEC 285","MEC 453"]},
+  {name:"Dr. Raza Moshwan",dept:"BSME",courses:["MEC 203","MEC 204","MSE 177","MSE 178"]},
+  {name:"Mr. Arif Md Shahed Iqubal",dept:"BSME",courses:["MEC 120","MEC 203","MEC 204","MEC 347","MEC 348"]},
+  {name:"Dr. A.K.M Parvez Iqbal",dept:"BSME",courses:["MEC 215","MEC 257","MEC 258","MEC 371"]},
+  {name:"Muhammad Ali Ayub Towhidi",dept:"BSME",courses:["MEC 231","MEC 257","MEC 258","MEC 271"]},
+  {name:"Sarfaraz Aziz",dept:"BSME",courses:["MEC 231","MEC 401","MEC 402","MEC 403","MEC 404"]},
+  {name:"Drs. Zahid Ahsan",dept:"BSME",courses:["MEC 237","MEC 238","MEC 263","MEC 264","MEC 337","MEC 338"]},
+  {name:"Md. Shamim Rayhan",dept:"BSME",courses:["ART 203","MEC 267","MEC 268","MEC 401","MEC 402"]},
+  {name:"Dr. Dewan Muhammad Nuruzzaman",dept:"BSME",courses:["MEC 271","MEC 391","MEC 392"]},
+  {name:"Dr. Sazzad Bin Sharif",dept:"BSME",courses:["MEC 457"]},
+  {name:"Engr. Abdul Wadud",dept:"BSME",courses:["MEC 437","MEC 453"]},
+  {name:"Mr. Nayem Hossain",dept:"BSME",courses:["MEC 120"]},
+  {name:"Dolon Mondol",dept:"BSN",courses:["NUR 114","NUR 115","NUR 335","NUR 336"]},
+  {name:"Priyanka Das Sharmi",dept:"BSN",courses:["NUR 114","NUR 115","NUR 205","NUR 451"]},
+  {name:"Mr. Faisal Mahmud",dept:"BSN",courses:["NUR 116","NUR 117","NUR 203"]},
+  {name:"Mr. Mostaque Ahmed",dept:"BSN",courses:["ART 102","BIO 220","BIO 221","NUR 202","NUR 204"]},
+  {name:"Md. Iahia Mia",dept:"BSN",courses:["NUR 203","NUR 342","NUR 343","NUR 403","NUR 404"]},
+  {name:"Md. Abeed Ahsan Shourav",dept:"BSN",courses:["BIO 220","BIO 221","NUR 205","NUR 306"]},
+  {name:"Shuvashish Das Bala",dept:"BSN",courses:["NUR 219","NUR 220","NUR 221","NUR 222"]},
+  {name:"Jannatul Ferdows",dept:"BSN",courses:["NUR 221","NUR 222","NUR 451"]},
+  {name:"Ms. Silvia Ferdousi",dept:"BSN",courses:["NUR 335","NUR 336"]},
+  {name:"Dr. Sandra Rumi Madhu",dept:"BSN",courses:["NUR 415","NUR 416","NUR 423"]},
+  {name:"Md. Mahedi Hasan (BSN)",dept:"BSN",courses:["NUR 415","NUR 416","NUR 423"]},
+  {name:"Rubel Hossain",dept:"BSN",courses:["NUR 403","NUR 404","NUR 451"]},
+  {name:"Feroz Sharif",dept:"CAAS",courses:["ART 1203","ART 204","PSY 105"]},
+  {name:"Mallika De",dept:"CAAS",courses:["ART 1203","ART 204","PSY 105"]},
+  {name:"Mr. Arobindu Dash",dept:"CAAS",courses:["ART 1203","ART 204","PSY 2101"]},
+  {name:"Mr. Mahady Hasan",dept:"CAAS",courses:["ART 1203","ART 204","PSY 105"]},
+  {name:"Roksana Parvin",dept:"CAAS",courses:["APSY 101","ART 1203","ART 204","PSY 105"]},
+  {name:"Mehrin Mostafa Mumu",dept:"CAAS",courses:["APSY 102","ART 204","PSY 2101"]},
+  {name:"Dr. Md. Shamsul Haque",dept:"CAAS",courses:["PHI 114","PHI 205"]},
+  {name:"Farjana Hossain",dept:"CAAS",courses:["PHI 114","PHI 2101"]},
+  {name:"Taslima Akter",dept:"CAAS",courses:["PHI 114","PHI 2101"]},
+  {name:"Imrose Jahan",dept:"CAAS",courses:["PHY 109","PHY 110","PHY 1103"]},
+  {name:"Mohaiminul Islam Nayeem",dept:"CAAS",courses:["PHY 109","PHY 110","PHY 1103","PHY 111","PHY 112"]},
+  {name:"Mr. Zahurul Amin",dept:"CAAS",courses:["PHY 109","PHY 110"]},
+  {name:"Mst. Ummey Habiba Musfika",dept:"CAAS",courses:["PHY 109","PHY 110","PHY 1103","PHY 111","PHY 112"]},
+  {name:"Dr. Mahbubur Rahman",dept:"CAAS",courses:["PHY 1103","PHY 121"]},
+  {name:"Mr. F.A Sabbir Ahamed",dept:"CAAS",courses:["PHY 1103","PHY 111","PHY 112"]},
+  {name:"Mr. Mohammad Hafizur Rahman Khan",dept:"CAAS",courses:["PHY 111","PHY 112"]},
+  {name:"Mohammed Motaher Hossain",dept:"CAAS",courses:["STA 240"]},
+  {name:"Ms. Rehana Parvin",dept:"CAAS",courses:["STA 240"]},
+  {name:"Ms. Tanzin Akhter",dept:"CAAS",courses:["STA 240","STA 3205"]},
+  {name:"Nusrat Jahan Sathi",dept:"CAAS",courses:["STA 240","STA 3205"]},
+  {name:"Rafayet Rahman Ridoy",dept:"CAAS",courses:["STA 240"]},
+  {name:"Tahira Mahbub",dept:"CAAS",courses:["STA 240"]},
+  {name:"Tofayel Ahmed",dept:"CAAS",courses:["STA 240"]},
+  {name:"Tamanna Siddiqua Ratna",dept:"CAAS",courses:["STA 3205"]},
+  {name:"Dr. Md Abu Hanif",dept:"CAAS",courses:["CHM 115","CHM 116","CHM 117","CHM 118","CHM 1201","CHM 1202"]},
+  {name:"Dr. Md. Jahidul Islam",dept:"CAAS",courses:["CHM 117","CHM 118","CHM 1201","CHM 1202"]},
+  {name:"Dr. Naima Sharmin",dept:"CAAS",courses:["CHM 117","CHM 118","CHM 1201","CHM 1202"]},
+  {name:"Dr. Saiful Islam",dept:"CAAS",courses:["CHM 115","CHM 116","CHM 117","CHM 118","CHM 1201","CHM 1202"]},
+  {name:"Dr. Harun-Ur-Rashid",dept:"CAAS",courses:["CHM 117","CHM 118","CHM 1201","CHM 1202"]},
+  {name:"Dr. Md. Wahab Khan",dept:"CAAS",courses:["CHM 115","CHM 116","CHM 1201","CHM 1202"]},
+  {name:"Ajoy Kumar",dept:"CAAS",courses:["CHM 115","CHM 116","CHM 1201","CHM 1202"]},
+  {name:"Dr. Fatema Tuj Johora",dept:"CAAS",courses:["MAT 237","MAT 247"]},
+  {name:"Dr. Rajib Lochan Das",dept:"CAAS",courses:["MAT 3101"]},
+  {name:"Md. Saiduzzaman",dept:"CAAS",courses:["MAT 3101"]},
+  {name:"Mr. Moksud Islam Lalan",dept:"CAAS",courses:["MAT 247","MAT 257","MAT 3101"]},
+  {name:"Dr. Rashida Pervin Lily",dept:"CAAS",courses:["MAT 147","MAT 167"]},
+  {name:"Dr. Shahina Akter",dept:"CAAS",courses:["MAT 107","MAT 197","MAT 219"]},
+  {name:"Arnab Mukherjee",dept:"CAAS",courses:["MAT 107","MAT 147","MAT 2105"]},
+  {name:"Md. Moniruzzaman Bhuyan",dept:"CAAS",courses:["MAT 107","MAT 147","MAT 219"]},
+  {name:"Ms. Sadiya Akhter",dept:"CAAS",courses:["MAT 107","MAT 197","MAT 2105"]},
+  {name:"Sadia Islam Rukaiya",dept:"CAAS",courses:["MAT 107","MAT 197","MAT 2105"]},
+  {name:"Sajeeb Hossain",dept:"CAAS",courses:["MAT 107","MAT 219","MAT 237"]},
+  {name:"Torikul Islam",dept:"CAAS",courses:["MAT 107","MAT 1205","MAT 219"]},
+  {name:"Abdullah Al Mamun",dept:"CAAS",courses:["MAT 1205","MAT 167"]},
+  {name:"Mr. Dilip Kumar Das",dept:"CAAS",courses:["MAT 1205","MAT 147"]},
+  {name:"Md. B.M Jewel Rana",dept:"CAAS",courses:["MAT 147","MAT 247"]},
+  {name:"Md. Shafiqul Islam (CAAS)",dept:"CAAS",courses:["MAT 147"]},
+  {name:"Dr. Mohammad Badruddoza Talukder",dept:"CTHM",courses:["THM 101","THM 331"]},
+  {name:"Sazzadur Rahman",dept:"CTHM",courses:["THM 101","THM 119","THM 120","THM 161"]},
+  {name:"Mohammad Abu Horaira",dept:"CTHM",courses:["THM 115","THM 116","THM 317","THM 405"]},
+  {name:"Ms. Farzana Al Ferdous",dept:"CTHM",courses:["THM 133","THM 134","THM 235","THM 236"]},
+  {name:"Shafiqul Islam (CTHM)",dept:"CTHM",courses:["THM 201","THM 351"]},
+  {name:"Mr. Mohammad Mofasserul Islam",dept:"CTHM",courses:["THM 241","THM 405"]},
+  {name:"Mr. Shaikh Ershad Hossain",dept:"CTHM",courses:["THM 301","THM 391"]},
+  {name:"Mr. Forhad Hossain",dept:"DEML",courses:["ENG 4101"]},
+  {name:"Mr. H M Nazmul Alam",dept:"DEML",courses:["ENG 203","ENG 307","ENG 4101"]},
+  {name:"Ms. Dilara Dilshad",dept:"DEML",courses:["ENG 101","ENG 102","ENG 203","ENG 4101"]},
+  {name:"Nusrat Farhana",dept:"DEML",courses:["ENG 1301","ENG 203","ENG 4101"]},
+  {name:"Wg Cdr Kazi Abdul Matin (Retd)",dept:"DEML",courses:["ENG 102","ENG 250","ENG 4101"]},
+  {name:"Ms. Khadizatul Kobra",dept:"DEML",courses:["ENG 203","ENG 250","HIS 109"]},
+  {name:"Mr. Jashim Uddin",dept:"DEML",courses:["BEN 101","ENG 202","ENG 206","ENG 250"]},
+  {name:"Md. Habeeb Faruk Khan",dept:"DEML",courses:["ENG 102","ENG 308"]},
+  {name:"Md. Nurul Haque",dept:"DEML",courses:["ENG 102","ENG 250","ENG 405"]},
+  {name:"Md. Kawsar Uddin",dept:"DEML",courses:["ENG 102","ENG 203","ENG 250"]},
+  {name:"Ms. Farenda Tasneem",dept:"DEML",courses:["ENG 102","ENG 203"]},
+  {name:"Ms. Nashin Sayara",dept:"DEML",courses:["ENG 102","ENG 105"]},
+  {name:"Ms. Nowshin Tabassum",dept:"DEML",courses:["ENG 102","ENG 203"]},
+  {name:"Lulu al Marzan",dept:"DEML",courses:["ENG 104","ENG 305"]},
+  {name:"Sheikh Saifullah Ahmed",dept:"DEML",courses:["ENG 104","ENG 303","ENG 401","ENG 402"]},
+  {name:"Maflufa Faiza Islam",dept:"DEML",courses:["ENG 106","ENG 250"]},
+  {name:"Mr. Kazi Imran Hossain",dept:"DEML",courses:["ENG 107","ENG 250","ENG 301"]},
+  {name:"Tanha Bentea Zaman",dept:"DEML",courses:["ENG 108","ENG 211","ENG 250"]},
+  {name:"Md. Raihan-Bin-Shafiq",dept:"DEML",courses:["ENG 1301","ENG 203","ENG 4101"]},
+  {name:"Mohammad Alamgir Sikder",dept:"DEML",courses:["ENG 1301","ENG 203"]},
+  {name:"Mr. Firoz Akanda",dept:"DEML",courses:["ENG 201","ENG 209"]},
+  {name:"Ms. Rifat Sultana",dept:"DEML",courses:["ENG 203","ENG 2203","ENG 250"]},
+  {name:"Mr. Raffat Arman Islam",dept:"DEML",courses:["ENG 203","ENG 2203","ENG 250"]},
+  {name:"Sk. Sabbir Ahmed",dept:"DEML",courses:["ENG 203","ENG 2203"]},
+  {name:"Tasnia Talukder",dept:"DEML",courses:["ENG 203","ENG 250","ENG 306"]},
+  {name:"Hasiba Mahmud",dept:"DEML",courses:["ENG 204","ENG 207","ENG 4101"]},
+  {name:"Mr. Ariful Insan Emon",dept:"DEML",courses:["ENG 210","ENG 2203"]},
+  {name:"M S Mahmod",dept:"DEML",courses:["ENG 2203"]},
+  {name:"Md. Kawser Ahmed",dept:"DEML",courses:["ENG 250","ENG 404","ENG 406","ENG 4101"]},
+  {name:"Ms. Fawzia Yakub",dept:"DEML",courses:["ENG 304"]},
+  {name:"A. K. M. Aminur Rashid",dept:"DEML",courses:["ENG 310"]},
+  {name:"Md. Zubair Rahman",dept:"DEML",courses:["ENG 400","ENG 403"]},
+  {name:"Dr. Bijoy Lal Basu",dept:"DEML",courses:["ENG 408"]},
+  {name:"Engr M A Bari",dept:"TTD",courses:["GIS","PDNA","PS","PSNA","SPSS"]},
+  {name:"Mr. Nazmus Saquib",dept:"TTD",courses:["SPSS"]},
+  {name:"Md. Amadul Islam",dept:"TTD",courses:["AUTOCAD","GIS","PS"]},
+  {name:"Md. Sujon Babu",dept:"TTD",courses:["AUTOCAD","PS","SW"]},
+  {name:"Mr. Hasanuzzaman",dept:"TTD",courses:["PS"]}
+];
+
+const ITEMS = 12;
+let filtered = [...FACULTY];
+let page = 1;
+let reviews = {};
+let selRatings = {};
+let curFaculty = null;
+
+function initials(n) {
+  const p = n.replace(/^(Dr\.|Mr\.|Ms\.|Prof\.|Engr\.|Drs\.?|Mst\.)\s*/i,'').split(' ');
+  return ((p[0]||'')[0]||'') + ((p[1]||'')[0]||'');
+}
+function colorIdx(n) {
+  let h=0; for(let c of n) h=(h*31+c.charCodeAt(0))&0xffff;
+  return h%5;
+}
+function avgRating(list) {
+  if(!list||!list.length) return 0;
+  return list.reduce((s,r)=>s+r.overall,0)/list.length;
+}
+function starsHTML(r, sz=14) {
+  let h=''; for(let i=1;i<=5;i++) h+=`<span class="star${i<=Math.round(r)?' on':''}" style="font-size:${sz}px">★</span>`;
+  return `<div class="stars">${h}</div>`;
+}
+function totalReviews() {
+  return Object.values(reviews).reduce((s,a)=>s+a.length,0);
+}
+function updateStats() {
+  document.getElementById('statFaculty').textContent = FACULTY.length;
+  document.getElementById('statReviews').textContent = totalReviews();
+}
+
+function filterFaculty() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const dept = document.getElementById('deptFilter').value;
+  filtered = FACULTY.filter(f => {
+    const mQ = !q || f.name.toLowerCase().includes(q) || f.courses.some(c=>c.toLowerCase().includes(q));
+    const mD = !dept || f.dept === dept;
+    return mQ && mD;
+  });
+  page = 1;
+  render();
+}
+
+function render() {
+  const grid = document.getElementById('facultyGrid');
+  const total = filtered.length;
+  const s = (page-1)*ITEMS;
+  const slice = filtered.slice(s, s+ITEMS);
+
+  document.getElementById('filterInfo').textContent =
+    total ? `Showing ${s+1}–${Math.min(s+ITEMS,total)} of ${total} faculty members` : '';
+
+  if(!slice.length) {
+    grid.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>No faculty found. Try a different search.</p></div>`;
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = slice.map(f => {
+    const rlist = reviews[f.name]||[];
+    const avg = avgRating(rlist);
+    const tags = f.courses.slice(0,3).map(c=>`<span class="course-tag">${c}</span>`).join('');
+    const more = f.courses.length>3 ? `<span class="course-tag">+${f.courses.length-3}</span>` : '';
+    const ratingTxt = rlist.length ? `${avg.toFixed(1)} (${rlist.length} review${rlist.length>1?'s':''})` : 'No reviews yet';
+    return `<div class="faculty-card">
+      <div class="fc-top">
+        <div class="avatar av-${colorIdx(f.name)}">${initials(f.name)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="fc-name">${f.name}</div>
+          <span class="fc-dept">${f.dept}</span>
+        </div>
+      </div>
+      <div class="courses-wrap">${tags}${more}</div>
+      <div class="rating-row">${starsHTML(avg)}<span class="rating-text">${ratingTxt}</span></div>
+      <button class="btn-review" onclick="openModal('${f.name.replace(/'/g,"\\'")}')">✏ Write a review</button>
+    </div>`;
+  }).join('');
+
+  renderPagination(total);
+  updateStats();
+}
+
+function renderPagination(total) {
+  const pages = Math.ceil(total/ITEMS);
+  const pg = document.getElementById('pagination');
+  if(pages<=1){pg.innerHTML='';return;}
+  pg.innerHTML = `
+    <button class="pg-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Prev</button>
+    <span class="pg-info">Page ${page} of ${pages}</span>
+    <button class="pg-btn" onclick="goPage(${page+1})" ${page===pages?'disabled':''}>Next →</button>`;
+}
+
+function goPage(p) {
+  page = p;
+  render();
+  window.scrollTo({top: document.querySelector('.controls').offsetTop - 80, behavior:'smooth'});
+}
+
+function openModal(name) {
+  curFaculty = FACULTY.find(f=>f.name===name);
+  selRatings = {overall:0,behaviour:0,marks:0,clarity:0};
+  const rlist = reviews[name]||[];
+  const ci = colorIdx(name);
+
+  let pastHTML = '';
+  if(rlist.length) {
+    pastHTML = `<hr class="divider">
+    <div class="past-reviews-title">Reviews (${rlist.length})</div>
+    ${rlist.slice().reverse().map(r=>`
+      <div class="review-item">
+        <div class="review-item-header">
+          <span class="reviewer-name">${r.reviewer||'Anonymous'}</span>
+          <span class="review-date">${r.date}</span>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:4px">${starsHTML(r.overall,13)}<span style="font-size:12px;color:var(--text2)">${r.overall.toFixed(1)}</span></div>
+        <div class="review-cats">
+          <span>Behaviour: ${'★'.repeat(r.behaviour)}${'☆'.repeat(5-r.behaviour)}</span>
+          <span>Marking: ${'★'.repeat(r.marks)}${'☆'.repeat(5-r.marks)}</span>
+          <span>Clarity: ${'★'.repeat(r.clarity)}${'☆'.repeat(5-r.clarity)}</span>
+        </div>
+        ${r.text?`<div class="review-text">${r.text}</div>`:''}
+      </div>`).join('')}`;
+  }
+
+  document.getElementById('modalForm').innerHTML = `
+    <div class="modal-teacher-header">
+      <div class="modal-avatar av-${ci}">${initials(name)}</div>
+      <div>
+        <div class="modal-teacher-name">${name}</div>
+        <div class="modal-teacher-dept">${curFaculty.dept} · ${curFaculty.courses.slice(0,3).join(', ')}${curFaculty.courses.length>3?'…':''}</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Overall rating *</label>
+      <div class="star-picker" id="sp-overall">${[1,2,3,4,5].map(i=>`<button class="sp-btn" onclick="setR('overall',${i})">★</button>`).join('')}</div>
+    </div>
+    <div class="form-group">
+      <label>Behaviour & attitude</label>
+      <div class="star-picker" id="sp-behaviour">${[1,2,3,4,5].map(i=>`<button class="sp-btn" onclick="setR('behaviour',${i})">★</button>`).join('')}</div>
+    </div>
+    <div class="form-group">
+      <label>Fair marking</label>
+      <div class="star-picker" id="sp-marks">${[1,2,3,4,5].map(i=>`<button class="sp-btn" onclick="setR('marks',${i})">★</button>`).join('')}</div>
+    </div>
+    <div class="form-group">
+      <label>Teaching clarity</label>
+      <div class="star-picker" id="sp-clarity">${[1,2,3,4,5].map(i=>`<button class="sp-btn" onclick="setR('clarity',${i})">★</button>`).join('')}</div>
+    </div>
+    <div class="form-group">
+      <label>Your name (optional)</label>
+      <input type="text" id="rName" placeholder="Leave blank to stay anonymous" />
+    </div>
+    <div class="form-group">
+      <label>Your review</label>
+      <textarea id="rText" placeholder="Describe your experience with this teacher…"></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitReview()">Submit review</button>
+    ${pastHTML}`;
+
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('modalForm').style.display = '';
+  document.getElementById('modalBackdrop').classList.add('open');
+}
+
+function setR(key, val) {
+  selRatings[key] = val;
+  document.querySelectorAll(`#sp-${key} .sp-btn`).forEach((btn,i)=>{
+    btn.classList.toggle('on', i<val);
+  });
+}
+
+function submitReview() {
+  if(!selRatings.overall) { alert('Please give an overall rating (★).'); return; }
+  const name = curFaculty.name;
+  if(!reviews[name]) reviews[name]=[];
+  reviews[name].push({
+    overall: selRatings.overall,
+    behaviour: selRatings.behaviour||0,
+    marks: selRatings.marks||0,
+    clarity: selRatings.clarity||0,
+    reviewer: document.getElementById('rName').value.trim() || 'Anonymous',
+    text: document.getElementById('rText').value.trim(),
+    date: new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})
+  });
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('successBox').style.display = 'block';
+  render();
+  setTimeout(closeModal, 2200);
+}
+
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('open');
+}
+
+document.getElementById('modalBackdrop').addEventListener('click', e=>{
+  if(e.target===document.getElementById('modalBackdrop')) closeModal();
+});
+
+filtered = [...FACULTY];
+render();
+updateStats();
+</script>
+</body>
+</html>

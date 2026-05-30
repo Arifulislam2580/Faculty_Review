@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Teacher Reviews Management</title>
+    <link rel="stylesheet" href="teacher-review.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">📚 Teacher Review System</div>
+            <div class="nav-links">
+                <a href="student-review.html">Submit Review</a>
+                <a href="view-reviews.html">View Reviews</a>
+                <a href="admin-reviews.html" class="active">Admin</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-container">
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalReviews">0</div>
+                    <div class="stat-label">Total Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTeachers">0</div>
+                    <div class="stat-label">Teachers Reviewed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="averageRating">0.0</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+            </div>
+
+            <!-- Admin Header -->
+            <div class="admin-header">
+                <h1>Review Management</h1>
+                <div class="filters">
+                    <select id="teacherFilter" onchange="filterReviews()">
+                        <option value="">All Teachers</option>
+                    </select>
+                    <select id="courseFilter" onchange="filterReviews()">
+                        <option value="">All Courses</option>
+                    </select>
+                    <button class="btn-submit" onclick="exportReviews()" style="width: auto; margin-top: 0; background-color: var(--success-color);">Export CSV</button>
+                    <button class="btn-submit" onclick="clearAllReviews()" style="width: auto; margin-top: 0; background-color: var(--accent-color);">Clear All</button>
+                </div>
+            </div>
+
+            <!-- Teacher Statistics -->
+            <div class="admin-header" style="margin-top: 2rem;">
+                <h2>Teacher Performance Summary</h2>
+                <div id="teacherStats" style="margin-top: 1rem;"></div>
+            </div>
+
+            <!-- Reviews List -->
+            <div id="reviewsList" class="reviews-list">
+                <!-- Reviews will be populated here -->
+            </div>
+
+            <div id="noReviews" class="no-reviews" style="display: none;">
+                No reviews submitted yet.
+            </div>
+        </main>
+    </div>
+
+    <script src="admin-reviews.js"></script>
+</body>
+</html>

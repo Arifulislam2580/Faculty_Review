@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Teacher Reviews</title>
+    <link rel="stylesheet" href="teacher-review.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">📚 Teacher Review System</div>
+            <div class="nav-links">
+                <a href="student-review.html">Submit Review</a>
+                <a href="view-reviews.html" class="active">View Reviews</a>
+                <a href="admin-reviews.html">Admin</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="admin-container">
+            <div class="admin-header">
+                <h1>Teacher Reviews</h1>
+                <div class="filters">
+                    <select id="teacherFilter" onchange="filterReviews()">
+                        <option value="">All Teachers</option>
+                    </select>
+                    <select id="courseFilter" onchange="filterReviews()">
+                        <option value="">All Courses</option>
+                    </select>
+                    <button class="btn-submit" onclick="sortReviews()" style="width: auto; margin-top: 0;">Sort by Rating</button>
+                </div>
+            </div>
+
+            <div id="reviewsList" class="reviews-list">
+                <!-- Reviews will be populated here -->
+            </div>
+
+            <div id="noReviews" class="no-reviews" style="display: none;">
+                No reviews found. Be the first to review!
+            </div>
+        </main>
+    </div>
+
+    <script src="view-reviews.js"></script>
+</body>
+</html>

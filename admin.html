@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hishab TV Admin Panel</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <div class="container admin-header-inner">
+      <a class="brand" href="index.html">Hishab TV Admin</a>
+      <nav class="admin-nav">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#shows">Shows</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#inquiries">Inquiries</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-hero">
+      <div class="container">
+        <h1>Admin Panel</h1>
+        <p>Manage Hishab TV show content, sponsors, and business inquiries from a single dashboard.</p>
+      </div>
+    </section>
+
+    <section class="admin-login" id="login-section">
+      <div class="container card">
+        <h2>Admin Login</h2>
+        <form id="login-form">
+          <label>
+            Username
+            <input type="text" id="username" placeholder="admin" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="password" placeholder="••••••••" required />
+          </label>
+          <button type="submit" class="btn primary">Sign In</button>
+        </form>
+        <p class="note">This is a static demo panel. Login will unlock the dashboard UI only.</p>
+      </div>
+    </section>
+
+    <section class="admin-dashboard hidden" id="dashboard">
+      <div class="container">
+        <div class="dashboard-grid">
+          <div class="dashboard-card">
+            <h3>Total Shows</h3>
+            <p>18</p>
+          </div>
+          <div class="dashboard-card">
+            <h3>Active Sponsors</h3>
+            <p>12</p>
+          </div>
+          <div class="dashboard-card">
+            <h3>Pending Inquiries</h3>
+            <p>7</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="shows">
+      <div class="container">
+        <div class="section-header">
+          <h2>Shows Management</h2>
+          <p>Add, edit, or remove show entries for the homepage and episode listings.</p>
+        </div>
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Show</th>
+                <th>Status</th>
+                <th>Air Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hishab Talks</td>
+                <td>Live</td>
+                <td>May 24, 2026</td>
+                <td><button>Edit</button><button>Delete</button></td>
+              </tr>
+              <tr>
+                <td>Brand Spotlight</td>
+                <td>Upcoming</td>
+                <td>June 3, 2026</td>
+                <td><button>Edit</button><button>Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="sponsors">
+      <div class="container">
+        <div class="section-header">
+          <h2>Sponsors & Partners</h2>
+          <p>Review approved sponsors and edit their promotional status.</p>
+        </div>
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Brand One</td>
+                <td>Tech</td>
+                <td>Active</td>
+                <td><button>Edit</button><button>Disable</button></td>
+              </tr>
+              <tr>
+                <td>Brand Three</td>
+                <td>Fashion</td>
+                <td>Active</td>
+                <td><button>Edit</button><button>Disable</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-section hidden" id="inquiries">
+      <div class="container">
+        <div class="section-header">
+          <h2>Business Inquiries</h2>
+          <p>Track new leads and respond to incoming requests from partners and sponsors.</p>
+        </div>
+        <div class="inquiry-list">
+          <article>
+            <div>
+              <strong>Imran H.</strong>
+              <p>Requesting advertising partnership for digital campaign.</p>
+            </div>
+            <span>New</span>
+          </article>
+          <article>
+            <div>
+              <strong>Rita B.</strong>
+              <p>Interested in sponsor placement for the next episode.</p>
+            </div>
+            <span>Pending</span>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="admin-footer">
+    <div class="container">
+      <p>Hishab TV Admin Panel - Static Demo</p>
+    </div>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>
